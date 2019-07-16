@@ -1,8 +1,8 @@
 import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
-import '@polymer/paper-dialog/paper-dialog.js';
-import './modal-contents.js';
-import './kanban-container.js';
-import '@polymer/iron-ajax/iron-ajax.js';
+import "@polymer/paper-dialog/paper-dialog.js";
+import "./modal-contents.js";
+import "./kanban-container.js";
+import "@polymer/iron-ajax/iron-ajax.js";
 
 class MainApp extends PolymerElement {
   static get template() {
@@ -14,17 +14,22 @@ class MainApp extends PolymerElement {
 
         body {
           margin: 10px;
-          font-Family: 'Lato', Sans-Serif;
-          font-Size: 16px;
+          font-family: "Lato", Sans-Serif;
+          font-size: 16px;
           line-height: 1.6;
         }
 
         header {
           height: 200px;
-          background: linear-gradient(to right, rgba(140, 161, 211, 0.6), rgba(48, 55, 103, 1)), url('images/bckgrnd1.jpg');
+          background: linear-gradient(
+              to right,
+              rgba(140, 161, 211, 0.6),
+              rgba(48, 55, 103, 1)
+            ),
+            url("images/bckgrnd1.jpg");
           background-position: center;
           background-size: cover;
-          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%)
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
         }
 
         svg {
@@ -88,12 +93,13 @@ class MainApp extends PolymerElement {
           border-radius: 15px;
         }
 
-        .btn:hover, .btn:focus {
-          background:  rgb(218, 214, 214);
+        .btn:hover,
+        .btn:focus {
+          background: rgb(218, 214, 214);
         }
 
         .btn:active {
-          box-shadow: 0 1px 2px rgba(0,0,0, 0.5) inset;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
         }
 
         main {
@@ -109,12 +115,12 @@ class MainApp extends PolymerElement {
           bottom: 0;
           left: 0;
           text-align: left;
-          background: rgba(0,0,0, .9);
-          transition: opacity .25s ease;
+          background: rgba(0, 0, 0, 0.9);
+          transition: opacity 0.25s ease;
         }
 
         .modal__inner {
-          transition: top .25s ease;
+          transition: top 0.25s ease;
           position: absolute;
           top: -20%;
           right: 0;
@@ -140,7 +146,7 @@ class MainApp extends PolymerElement {
 
         .modal__close:after,
         .modal__close:before {
-          content: '';
+          content: "";
           position: absolute;
           width: 2px;
           height: 1.5em;
@@ -162,7 +168,6 @@ class MainApp extends PolymerElement {
         }
 
         @media screen and (max-width: 768px) {
-            
           .modal__inner {
             width: 90%;
             height: 90%;
@@ -178,35 +183,35 @@ class MainApp extends PolymerElement {
         handle-as="json"
         content-type="application/json"
         body="[[body]]"
-        on-response="handleResponse">
+        on-response="handleResponse"
+      >
       </iron-ajax>
       <paper-dialog id="modal" class="modal" modal>
         <div class="modal__inner">
-            <button class="modal__close" dialog-confirm autofocus></button>
-            <h2>Add a New Task</h2>
-            <modal-contents id="taskInputs"></modal-contents>
+          <button class="modal__close" dialog-confirm autofocus></button>
+          <h2>Add a New Task</h2>
+          <modal-contents id="taskInputs"></modal-contents>
         </div>
       </paper-dialog>
 
       <header>
+        <svg width="10vw" height="10vh">
+          <image href="./images/kanban.svg" width="10vw" height="10vh" />
+        </svg>
 
-          <svg width='10vw' height='10vh'>
-              <image href='./images/kanban.svg' width='10vw' height='10vh' />
-          </svg>
-
-          <div class="progress-bar">
-              <div class="empty-bar"></div>
-              <div class="fill-bar"></div>
-              <div class="stats">
-                  <p><span class="highlight">25%</span> complete</p>
-                  <p>1 of 4 tasks complete</p>
-              </div>
-              <button class='btn' on-click="openModal">New Task</button>
+        <div class="progress-bar">
+          <div class="empty-bar"></div>
+          <div class="fill-bar"></div>
+          <div class="stats">
+            <p><span class="highlight">25%</span> complete</p>
+            <p>1 of 4 tasks complete</p>
           </div>
+          <button class="btn" on-click="openModal">New Task</button>
+        </div>
       </header>
 
-      <main class='board'>
-          <kanban-container tasks$="{{tasks}}" id="kanban"></kanban-container>
+      <main class="board">
+        <kanban-container tasks$="{{tasks}}" id="kanban"></kanban-container>
       </main>
     `;
   }
@@ -217,31 +222,39 @@ class MainApp extends PolymerElement {
 
   ready() {
     super.ready();
-    this.$.taskInputs.addEventListener('new task', event => this.addTask(event));
-    this.$.kanban.addEventListener('status change', event => this.statusChange(event));
-  
+    this.$.taskInputs.addEventListener("new task", event =>
+      this.addTask(event)
+    );
+    this.$.kanban.addEventListener("status change", event =>
+      this.statusChange(event)
+    );
+
     this.socket = io();
 
-    this.socket.on('task added', (data) => {
-      this.push('tasks', data.payload);
+    this.socket.on("task added", data => {
+      this.push("tasks", data.payload);
     });
 
-    this.socket.on('task updated', (data) => {
-      this.getAll()
+    this.socket.on("task updated", data => {
+      this.getAll();
     });
   }
 
   addTask(event) {
     this.id = "";
-    this.set('body', event.detail);
+    this.set("body", event.detail);
     this.$.dataAjax.method = "POST";
     this.$.modal.close();
   }
 
   statusChange(event) {
-    this.set('body', { status__c: event.detail.status__c });
+    this.set("body", { status__c: event.detail.status__c });
     this.id = event.detail.id;
-    this.$.dataAjax.method = "PUT";
+    if (event.detail.status__c === "**Delete**") {
+      this.$.dataAjax.method = "DELETE";
+    } else {
+      this.$.dataAjax.method = "PUT";
+    }
   }
 
   getAll() {
@@ -251,8 +264,8 @@ class MainApp extends PolymerElement {
   }
 
   handleResponse(event, res) {
-    if ( this.$.dataAjax.method === "GET") {
-      this.set('tasks', res.response);
+    if (this.$.dataAjax.method === "GET") {
+      this.set("tasks", res.response);
     } else {
       this.getAll();
     }
@@ -264,7 +277,7 @@ class MainApp extends PolymerElement {
       body: Object,
       url: String,
       id: String
-    }
+    };
   }
 
   constructor() {
