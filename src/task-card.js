@@ -13,37 +13,38 @@ class TaskCard extends PolymerElement {
           margin-bottom: 15px;
           padding: 10px;
           position: relative;
-          box-shadow: 5px 5px 10px 4px rgba(0,0,0,0.5);
-          transition: height .5s;
+          box-shadow: 5px 5px 10px 4px rgba(0, 0, 0, 0.5);
+          transition: height 0.5s;
         }
-        
+
         .card:hover {
           height: auto;
         }
-        
+
         .taskDescription {
-          font-Family: 'Arvo', Serif;
-          font-size: .8em;
+          font-family: "Arvo", Serif;
+          font-size: 0.8em;
           margin: 10px;
           visibility: hidden;
           opacity: 0;
-          transition: visibility 0 linear 300ms, opacity .7s .5s ; 
+          transition: visibility 0 linear 300ms, opacity 0.7s 0.5s;
         }
-        
-        .card:hover .taskDescription{
+
+        .card:hover .taskDescription {
           visibility: visible;
-          opacity: 1; 
+          opacity: 1;
         }
-        
+
         h3 {
           font-size: 1.15em;
           font-weight: bold;
         }
-        
-        .title, .date {
+
+        .title,
+        .date {
           text-align: left;
         }
-        
+
         .name {
           color: white;
           display: inline-block;
@@ -51,46 +52,48 @@ class TaskCard extends PolymerElement {
           min-width: 50px;
           text-align: center;
           text-transform: uppercase;
-          font-size: .7em;
+          font-size: 0.7em;
           position: absolute;
           top: -10px;
           left: 10px;
           clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-          font-Family: 'Arvo', Serif;
+          font-family: "Arvo", Serif;
           border-radius: 2px;
         }
-        
+
         .turquoise {
-          background: #07BEB8;
+          background: #07beb8;
         }
-        
+
         .orange {
-          background: #F3CA40;
+          background: #f3ca40;
         }
-        
+
         .green {
-          background: #21cf5b
+          background: #21cf5b;
         }
-        
+
         .blue {
-          background: hsl(239, 82%, 44%)
+          background: hsl(239, 82%, 44%);
         }
 
         @media only screen and (max-width: 680px) {
           h2 {
-           font-size: 1em;
+            font-size: 1em;
           }
-          
+
           h3 {
-           font-size: .8em;
+            font-size: 0.8em;
           }
-          
+
           .name {
-           font-size: .6em;
+            font-size: 0.6em;
           }
-          
-          .date, .stats, .btn {
-           font-size: .7em;
+
+          .date,
+          .stats,
+          .btn {
+            font-size: 0.7em;
           }
         }
       </style>
@@ -100,13 +103,18 @@ class TaskCard extends PolymerElement {
         <p class="date">[[date]]</p>
         <section class="taskDescription">
           <slot></slot>
-            <paper-dropdown-menu on-iron-select="changeStatus" label="Status" value="[[status]]">
-              <paper-listbox slot="dropdown-content" class="dropdown-content">
-                <paper-item>Backlog</paper-item>
-                <paper-item>In Progress</paper-item>
-                <paper-item>Complete</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
+          <paper-dropdown-menu
+            on-iron-select="changeStatus"
+            label="Status"
+            value="[[status]]"
+          >
+            <paper-listbox slot="dropdown-content" class="dropdown-content">
+              <paper-item>Backlog</paper-item>
+              <paper-item>In Progress</paper-item>
+              <paper-item>Complete</paper-item>
+              <paper-item>**Delete**</paper-item>
+            </paper-listbox>
+          </paper-dropdown-menu>
         </section>
       </div>
     `;
@@ -127,8 +135,12 @@ class TaskCard extends PolymerElement {
     const detail = {
       id: id,
       status__c: temp
-    }
-    const newEvent = new CustomEvent('status change', { detail: detail,  bubbles: true, composed: true });
+    };
+    const newEvent = new CustomEvent("status change", {
+      detail: detail,
+      bubbles: true,
+      composed: true
+    });
     this.dispatchEvent(newEvent);
   }
 
@@ -137,4 +149,4 @@ class TaskCard extends PolymerElement {
   }
 }
 
-customElements.define('task-card', TaskCard);
+customElements.define("task-card", TaskCard);
