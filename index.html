@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css?family=Arvo|Lato:400,700" rel="stylesheet">
-    <link href="./reset.css" rel="stylesheet">
-    <link href="./style.css" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Arvo|Lato:400,700"
+      rel="stylesheet"
+    />
+    <link href="./reset.css" rel="stylesheet" />
+    <link href="./style.css" rel="stylesheet" />
     <script src="./node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script type="module" src="src/main-app.js"></script>
-</head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="https://cdn.conversejs.org/4.2.0/css/converse.min.css"
+    />
+    <script
+      src="https://cdn.conversejs.org/4.2.0/dist/converse.min.js"
+      charset="utf-8"
+    ></script>
+  </head>
 
-<body>
-
+  <body>
     <main-app></main-app>
-    
-</body>
-
+  </body>
+  <script>
+    converse.initialize({
+      bosh_service_url: "https://conversejs.org/http-bind/", // Please use this connection manager only for testing purposes
+      show_controlbox_by_default: false
+    });
+  </script>
 </html>
